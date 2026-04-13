@@ -3,58 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduVulcan - Panel Ucznia</title>
+    <title>EduVulcan Portal</title>
     <style>
-        /* CSS - Projekt responsywny */
-        body { font-family: sans-serif; margin: 0; background-color: #f4f6f8; }
-        nav { background: #2c3e50; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .container { padding: 20px; max-width: 800px; margin: auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .content-area { margin-top: 20px; padding: 20px; background: white; border-radius: 8px; display: none; }
-        @media (max-width: 600px) { nav { flex-direction: column; } }
+        :root {
+            --md-sys-color-primary: #6750a4; /* MD3 Primary */
+            --md-sys-color-surface: #fef7ff;
+            --md-sys-color-on-surface: #1d1b20;
+            --md-sys-shape-corner: 16px;
+        }
+
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: #f3edf7; margin: 0; color: var(--md-sys-color-on-surface); }
+        
+        /* Top App Bar */
+        header { background: #eaddff; padding: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: center; }
+        
+        .container { padding: 16px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+
+        /* Card Component (MD1 Shadow + MD3 Rounded) */
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: var(--md-sys-shape-corner); 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15); 
+            text-align: center; 
+            transition: transform 0.2s;
+        }
+        .card:active { transform: scale(0.95); }
+
+        /* Sections */
+        .section-container { margin-top: 20px; padding: 16px; }
+        .list-item { 
+            background: white; 
+            margin-bottom: 8px; 
+            padding: 16px; 
+            border-radius: 12px; 
+            display: flex; 
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* FAB Button (Classic MD1) */
+        .fab {
+            position: fixed; bottom: 24px; right: 24px;
+            background: var(--md-sys-color-primary); color: white;
+            width: 56px; height: 56px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-<nav>
-    <h2>EduVulcan</h2>
-    <div id="nav-links">Witaj, Uczniu!</div>
-</nav>
+<header>
+    <strong>EduVulcan 3.0</strong>
+    <span>👤 Jan Kowalski</span>
+</header>
 
 <div class="container">
-    <div class="grid">
-        <div class="card" onclick="showContent('wiadomosci')">✉️ Wiadomości</div>
-        <div class="card" onclick="showContent('oceny')">📊 Oceny</div>
-        <div class="card" onclick="showContent('frekwencja')">🕒 Frekwencja</div>
-        <div class="card" onclick="showContent('plan')">📅 Plan Lekcji</div>
-    </div>
-
-    <div id="display-area" class="content-area">
-        <h3 id="content-title">Wybierz sekcję</h3>
-        <p id="content-text">Kliknij w wybrany kafelek, aby zobaczyć szczegóły.</p>
-    </div>
+    <div class="card" onclick="openSection('Wiadomości')">✉️<br>Wiadomości</div>
+    <div class="card" onclick="openSection('Oceny')">📊<br>Oceny</div>
+    <div class="card" onclick="openSection('Frekwencja')">🕒<br>Frekwencja</div>
+    <div class="card" onclick="openSection('Plan')">📅<br>Plan</div>
+    <div class="card" onclick="openSection('Zadania')">📝<br>Zadania</div>
+    <div class="card" onclick="openSection('Uwagi')">⚠️<br>Uwagi</div>
 </div>
 
-<script>
-    // JS - Logika przełączania zakładek
-    function showContent(section) {
-        const area = document.getElementById('display-area');
-        const title = document.getElementById('content-title');
-        const text = document.getElementById('content-text');
-        
-        area.style.display = 'block';
-        
-        const data = {
-            'wiadomosci': {t: 'Wiadomości', d: 'Brak nowych wiadomości w skrzynce.'},
-            'oceny': {t: 'Oceny', d: 'Twoja średnia: 4.8. Ostatnia ocena: Matematyka - 5.'},
-            'frekwencja': {t: 'Frekwencja', d: 'Obecność: 95%. Brak nieusprawiedliwionych godzin.'},
-            'plan': {t: 'Plan Lekcji', d: 'Dziś: 1. Matematyka, 2. Język Polski, 3. Historia.'}
-        };
+<div id="content" class="section-container">
+    <h3>Wybierz sekcję powyżej</h3>
+</div>
 
-        title.innerText = data[section].t;
-        text.innerText = data[section].d;
+<div class="fab">+</div>
+
+<script>
+    function openSection(name) {
+        const content = document.getElementById('content');
+        content.innerHTML = `<h3>${name}</h3>
+            <div class="list-item"><span>Wpis 1</span><span>Szczegóły ></span></div>
+            <div class="list-item"><span>Wpis 2</span><span>Szczegóły ></span></div>
+            <div class="list-item"><span>Wpis 3</span><span>Szczegóły ></span></div>`;
     }
 </script>
 
