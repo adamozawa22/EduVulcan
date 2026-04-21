@@ -15,12 +15,10 @@
   --md-on-primary:       #FFFFFF;
   --md-primary-container:#D3E3FD;
   --md-on-primary-cont:  #041E49;
-
   /* Secondary */
   --md-secondary:        #5F6368;
   --md-secondary-cont:   #E8EAED;
   --md-on-secondary-cont:#202124;
-
   /* Tertiary */
   --md-tertiary:         #188038;
   --md-tertiary-cont:    #CEEAD6;
@@ -30,7 +28,6 @@
   --md-error:            #C5221F;
   --md-error-cont:       #FFDAD6;
   --md-on-error-cont:    #410002;
-
   /* Surface */
   --md-bg:               #F8F9FA;
   --md-surface:          #FFFFFF;
@@ -43,20 +40,18 @@
   --md-on-surf:          #202124;
   --md-on-surf-var:      #5F6368;
   --md-on-surf-dis:      #9AA0A6;
-
   /* Elevation overlays */
   --md-elev1: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.10);
   --md-elev2: 0 1px 2px rgba(0,0,0,.06), 0 2px 6px rgba(0,0,0,.10);
   --md-elev3: 0 4px 8px rgba(0,0,0,.06), 0 2px 4px rgba(0,0,0,.08);
-
   /* Shape */
   --r-xs:  4px; --r-sm: 8px; --r-md: 12px;
   --r-lg:  16px; --r-xl: 20px; --r-2xl: 28px; --r-full: 9999px;
-
   /* Status colours */
   --c-ok:      #188038; --c-ok-bg:   #CEEAD6;
   --c-ab:      #C5221F; --c-ab-bg:   #FFDAD6;
-  --c-la:      #E37400; --c-la-bg:   #FDE8C8;
+  --c-la:      #E37400;
+  --c-la-bg:   #FDE8C8;
   --c-unex:    #B31412; --c-unex-bg: #FAD1D0;
 
   --font: 'Roboto', 'Roboto Flex', system-ui, sans-serif;
@@ -382,7 +377,8 @@ body {
 .ex-btn {
   font-size: 12px; font-weight: 500; background: var(--md-primary);
   color: var(--md-on-primary); border: none; border-radius: var(--r-full);
-  padding: 6px 14px; cursor: pointer; transition: box-shadow .15s, transform .12s;
+  padding: 6px 14px; cursor: pointer;
+  transition: box-shadow .15s, transform .12s;
 }
 .ex-btn:hover { box-shadow: 0 2px 8px rgba(26,115,232,.4); }
 .ex-btn:active { transform: scale(.94); }
@@ -439,7 +435,8 @@ body {
   background: var(--md-surface);
   border: 1px solid var(--md-outline);
   border-radius: var(--r-xl);
-  box-shadow: var(--md-elev1); overflow: hidden; margin-bottom: 10px;
+  box-shadow: var(--md-elev1);
+  overflow: hidden; margin-bottom: 10px;
 }
 .g-header {
   display: flex; align-items: center; gap: 12px;
@@ -525,7 +522,8 @@ textarea.f-field { resize: none; }
 
 /* ── MD3 BUTTONS ── */
 .btn {
-  background: var(--md-primary); color: var(--md-on-primary); border: none;
+  background: var(--md-primary);
+  color: var(--md-on-primary); border: none;
   border-radius: var(--r-full); padding: 10px 24px;
   font: 500 14px/1 var(--font); cursor: pointer; letter-spacing: .1px;
   display: inline-flex; align-items: center; gap: 8px;
@@ -537,9 +535,7 @@ textarea.f-field { resize: none; }
   background: transparent; color: var(--md-primary);
   border: 1px solid var(--md-outline); box-shadow: none;
 }
-.btn.text-btn {
-  background: transparent; color: var(--md-primary); box-shadow: none;
-}
+.btn.text-btn { background: transparent; color: var(--md-primary); box-shadow: none; }
 .btn.full { width: 100%; justify-content: center; }
 
 /* ── SETTINGS PAGE ── */
@@ -583,7 +579,8 @@ textarea.f-field { resize: none; }
 .md3-switch-thumb {
   position: absolute; top: 50%; transform: translate(4px, -50%);
   width: 16px; height: 16px; border-radius: 50%;
-  background: var(--md-outline); transition: all .2s cubic-bezier(.2,0,0,1);
+  background: var(--md-outline);
+  transition: all .2s cubic-bezier(.2,0,0,1);
   pointer-events: none;
 }
 .md3-switch input:checked ~ .md3-switch-track .md3-switch-thumb {
@@ -597,12 +594,11 @@ textarea.f-field { resize: none; }
 .md3-radio input { display: none; }
 .md3-radio-btn {
   width: 20px; height: 20px; border-radius: 50%;
-  border: 2px solid var(--md-outline); transition: border-color .15s;
+  border: 2px solid var(--md-outline);
+  transition: border-color .15s;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.md3-radio input:checked ~ .md3-radio-btn {
-  border-color: var(--md-primary);
-}
+.md3-radio input:checked ~ .md3-radio-btn { border-color: var(--md-primary); }
 .md3-radio-dot {
   width: 10px; height: 10px; border-radius: 50%;
   background: var(--md-primary); opacity: 0; transform: scale(0);
@@ -615,7 +611,8 @@ textarea.f-field { resize: none; }
 .chip {
   padding: 6px 16px; border-radius: var(--r-full);
   border: 1px solid var(--md-outline);
-  font: 500 14px var(--font); cursor: pointer; color: var(--md-on-surf-var);
+  font: 500 14px var(--font);
+  cursor: pointer; color: var(--md-on-surf-var);
   background: var(--md-surface); transition: all .15s;
 }
 .chip.selected { background: var(--md-primary-container); color: var(--md-on-primary-cont); border-color: var(--md-primary); }
@@ -635,13 +632,15 @@ textarea.f-field { resize: none; }
 .bn-item {
   flex: 1; display: flex; flex-direction: column; align-items: center;
   justify-content: center; gap: 4px; cursor: pointer;
-  color: var(--md-on-surf-var); position: relative;
+  color: var(--md-on-surf-var);
+  position: relative;
   padding: 8px 4px 0;
 }
 .bn-indicator {
   width: 64px; height: 32px; border-radius: var(--r-full);
   background: transparent;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center; justify-content: center;
   transition: background .15s; position: relative;
 }
 .bn-item.active .bn-indicator { background: var(--md-primary-container); }
@@ -652,7 +651,8 @@ textarea.f-field { resize: none; }
 .bn-badge {
   position: absolute; top: -4px; right: 8px;
   background: var(--md-error); color: var(--md-on-primary);
-  font-size: 10px; font-weight: 700; min-width: 18px; height: 18px;
+  font-size: 10px;
+  font-weight: 700; min-width: 18px; height: 18px;
   border-radius: var(--r-full); padding: 0 4px;
   display: flex; align-items: center; justify-content: center;
   border: 2px solid var(--md-surface);
@@ -661,7 +661,8 @@ textarea.f-field { resize: none; }
 /* ── PROFILE POPOVER ── */
 .prof-overlay {
   position: fixed; inset: 0; z-index: 500;
-  display: none; align-items: flex-start; justify-content: flex-end;
+  display: none;
+  align-items: flex-start; justify-content: flex-end;
   padding: calc(72px + env(safe-area-inset-top,0)) 16px 0;
 }
 .prof-overlay.open { display: flex; animation: fi .14s ease; }
@@ -671,7 +672,8 @@ textarea.f-field { resize: none; }
   border: 1px solid var(--md-outline);
   border-radius: var(--r-2xl);
   box-shadow: var(--md-elev3);
-  width: 280px; overflow: hidden;
+  width: 280px;
+  overflow: hidden;
   animation: pi .2s cubic-bezier(.2,0,0,1);
 }
 @keyframes pi { from{opacity:0;transform:scale(.93)translateY(-8px)}to{opacity:1;transform:none} }
@@ -772,7 +774,6 @@ textarea.f-field { resize: none; }
   <main class="main">
     <div class="content">
 
-      <!-- OVERVIEW -->
       <div class="page active" id="page-overview">
         <div class="ph">
           <div class="ph-title">Dzień dobry 👋</div>
@@ -790,7 +791,6 @@ textarea.f-field { resize: none; }
         <div class="md3-card" id="ov-grades"></div>
       </div>
 
-      <!-- PLAN -->
       <div class="page" id="page-plan">
         <div class="ph"><div class="ph-title">Plan lekcji</div></div>
         <div class="week-lbl" id="pl-wlbl"></div>
@@ -806,7 +806,6 @@ textarea.f-field { resize: none; }
         <div id="pl-lessons"></div>
       </div>
 
-      <!-- FREKWENCJA -->
       <div class="page" id="page-attendance">
         <div class="ph"><div class="ph-title">Frekwencja</div></div>
         <div class="md3-card" style="margin-bottom:16px">
@@ -845,7 +844,6 @@ textarea.f-field { resize: none; }
         <div id="at-day"></div>
       </div>
 
-      <!-- OCENY -->
       <div class="page" id="page-grades">
         <div class="ph"><div class="ph-title">Oceny</div></div>
         <div class="md3-card" style="margin-bottom:16px">
@@ -860,7 +858,6 @@ textarea.f-field { resize: none; }
         <div id="g-list"></div>
       </div>
 
-      <!-- WIADOMOŚCI -->
       <div class="page" id="page-messages">
         <div class="ph"><div class="ph-title">Wiadomości</div></div>
         <div class="msg-compose">
@@ -901,7 +898,6 @@ textarea.f-field { resize: none; }
         <div id="msg-list"></div>
       </div>
 
-      <!-- USTAWIENIA -->
       <div class="page" id="page-settings">
         <div class="ph"><div class="ph-title">Ustawienia</div></div>
 
@@ -1116,7 +1112,6 @@ textarea.f-field { resize: none; }
   </main>
 </div>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
     <div class="bn-item active" onclick="goTo('overview',this)" data-pg="overview">
@@ -1154,7 +1149,6 @@ textarea.f-field { resize: none; }
   </div>
 </nav>
 
-<!-- PROFILE -->
 <div class="prof-overlay" id="prof-overlay" onclick="closeProf()">
   <div class="prof-card" onclick="event.stopPropagation()">
     <div class="pc-top">
@@ -1181,7 +1175,7 @@ const TT={
     {nr:4,from:'10:40',to:'11:25',name:'Matematyka',         t:'Małgorzata Jankowska',    r:'67'},
     {nr:5,from:'11:45',to:'12:30',name:'Muzyka',             t:'Mateusz Mazur',           r:'56'},
     {nr:6,from:'12:50',to:'13:35',name:'Język angielski',    t:'Agata Lewandowska',       r:'68'},
-    {nr:7,from:'13:45',to:'14:30',name:'Język polski',       t:'Iwona Król',              r:'61'},
+    {nr:7,from:'13:45',to:'14:30',name:'Język polski',        t:'Iwona Król',              r:'61'},
     {nr:8,from:'14:35',to:'15:20',name:'Zaj. z wychowawcą', t:'Małgorzata Jankowska',    r:''},
   ],
   1:[
@@ -1270,7 +1264,7 @@ let S={
     {sub:'Fizyka',          val:5,  wt:1,desc:'Kartkówka – ciepło',      date:'2026-04-14'},
     {sub:'Język angielski', val:5,  wt:2,desc:'Test leksykalny',         date:'2026-04-07'},
     {sub:'Język angielski', val:4.5,wt:1,desc:'Odpowiedź ustna',         date:'2026-04-12'},
-    {sub:'Język polski',    val:4,  wt:3,desc:'Wypracowanie',            date:'2026-04-05'},
+    {sub:'Język polski',    val:4,   wt:3,desc:'Wypracowanie',            date:'2026-04-05'},
     {sub:'Język polski',    val:5,  wt:1,desc:'Recytacja',               date:'2026-04-11'},
     {sub:'Biologia',        val:4,  wt:2,desc:'Sprawdzian – ekologia',   date:'2026-04-09'},
     {sub:'Chemia',          val:3,  wt:2,desc:'Sprawdzian – sole',       date:'2026-04-13'},
@@ -1300,7 +1294,6 @@ let S={
   ],
   sent:[],
 };
-
 /* ═══ SETTINGS STATE ═══ */
 let CFG={
   automark: true,
@@ -1312,7 +1305,6 @@ let CFG={
   notifMsg: true,
   notifGr: true,
 };
-
 function saveSettings(){
   CFG.automark = document.getElementById('s-automark').checked;
   CFG.thresh   = parseInt(document.getElementById('s-thresh').value);
@@ -1415,12 +1407,10 @@ function autoMark(){
   if(dow>4) return;
   const td=today(),n=nm(),lessons=TT[dow]||[];
   if(!lessons.length) return;
-  const thresh=CFG.thresh/100;
   let changed=false;
   lessons.forEach(slot=>{
-    const st=pt(slot.from),en=pt(slot.to),dur=en-st;
-    const mid=st+Math.round(dur*thresh);
-    if(n>=mid){
+    const st=pt(slot.from);
+    if(n>=st){
       let dd=S.attendance.find(d=>d.date===td);
       if(!dd){S.attendance.push({date:td,lessons:[]});dd=S.attendance[S.attendance.length-1];}
       if(!dd.lessons.find(l=>l.name===slot.name)){
@@ -1551,7 +1541,6 @@ function shiftPlan(d){
 
 /* ═══ FREKWENCJA ═══ */
 let atWk=0,atDay=0;
-
 /**
  * Zwraca { wk, day } wskazujące na ostatni dzień z danymi frekwencji.
  * wk – offset tygodnia względem bieżącego (0 = ten tydzień, -1 = poprzedni, …)
@@ -1565,13 +1554,13 @@ function lastAttPos(){
   const lastDate=parseLocalDate(sorted[0].date);
 
   // Nie pokazuj dni z przyszłości
-  const effectiveDate = lastDate > tod ? tod : lastDate;
+  const effectiveDate = lastDate > tod ?
+  tod : lastDate;
 
   const curMon=getMonday(tod,0);
   const lastMon=getMonday(effectiveDate,0);
   const wkOffset=Math.round((lastMon-curMon)/(7*24*3600*1000)); // ujemna lub 0
   const dayIdx=Math.min(4,Math.max(0,(effectiveDate.getDay()+6)%7));
-
   return {wk: wkOffset, day: dayIdx};
 }
 
@@ -1928,7 +1917,6 @@ autoMark();
 // Ustaw plan na dzisiejszy dzień tygodnia
 const todDow=(new Date().getDay()+6)%7;
 plDay=Math.min(4,Math.max(0,todDow));
-
 // ── POPRAWKA: ustaw frekwencję na ostatni dzień z danymi ──
 const _attPos = lastAttPos();
 atWk  = _attPos.wk;
