@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>EduRodzic v0.92</title>
+<title>EduRodzic v0.88</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -365,6 +365,7 @@ body {
 .ai-ok { background: var(--c-ok-bg); }
 .ai-ab { background: var(--c-ab-bg); }
 .ai-la { background: var(--c-la-bg); }
+.ai-none { background: var(--md-surface-var); }
 .a-info { flex: 1; min-width: 0; }
 .a-name { font-size: 16px; font-weight: 500; }
 .a-time { font-size: 12px; color: var(--md-on-surf-var); margin-top: 2px; }
@@ -373,6 +374,7 @@ body {
 .al-ok { background: var(--c-ok-bg); color: var(--c-ok); }
 .al-ab { background: var(--c-ab-bg); color: var(--c-ab); }
 .al-la { background: var(--c-la-bg); color: var(--c-la); }
+.al-none { background: var(--md-surface-var); color: var(--md-on-surf-var); }
 .al-unex { background: var(--c-unex-bg); color: var(--c-unex); }
 .ex-btn {
   font-size: 12px; font-weight: 500; background: var(--md-primary);
@@ -1649,21 +1651,25 @@ function renderAttDay(mon){
   }
   const n=isToday?nm():-1;
   const thresh=CFG.thresh/100;
+  
   const rows=timetable.length?timetable.map(slot=>{
+    const isFutureLesson = isToday && n < pt(slot.from);
     const entry=dayData?dayData.lessons.find(l=>l.name===slot.name):null;
-    const type=entry?entry.type:'ok';
+    const type=entry?entry.type:(isFutureLesson?'none':'ok');
     const excuse=entry?entry.excuse:true;
     const isAuto=entry&&entry.auto;
     const isCurr=isToday&&n>=pt(slot.from)&&n<pt(slot.to);
-    const ico=type==='ok'?'✓':type==='la'?'⏰':'✕';
-    const ic=type==='ok'?'ai-ok':type==='la'?'ai-la':'ai-ab';
-    const icCol=type==='ok'?'var(--c-ok)':type==='la'?'var(--c-la)':'var(--c-ab)';
-    const stLbl=type==='ok'?'Obecny':type==='la'?'Spóźnienie':'Nieobecność';
-    const stCls=type==='ok'?'al-ok':type==='la'?'al-la':'al-ab';
-    const exLbl=type!=='ok'?(excuse?'✓ Usprawiedliwiona':'✗ Nieusprawiedliwiona'):'';
+    
+    const ico=type==='ok'?'✓':type==='la'?'⏰':type==='none'?'—':'✕';
+    const ic=type==='ok'?'ai-ok':type==='la'?'ai-la':type==='none'?'ai-none':'ai-ab';
+    const icCol=type==='ok'?'var(--c-ok)':type==='la'?'var(--c-la)':type==='none'?'var(--md-on-surf-dis)':'var(--c-ab)';
+    const stLbl=type==='ok'?'Obecny':type==='la'?'Spóźnienie':type==='none'?'Brak':'Nieobecność';
+    const stCls=type==='ok'?'al-ok':type==='la'?'al-la':type==='none'?'al-none':'al-ab';
+    const exLbl=(type!=='ok'&&type!=='none')?(excuse?'✓ Usprawiedliwiona':'✗ Nieusprawiedliwiona'):'';
     const exCls=excuse?'al-ok':'al-unex';
-    const canExc=type!=='ok'&&!excuse&&dayData;
+    const canExc=type!=='ok'&&type!=='none'&&!excuse&&dayData;
     const autoChip=isAuto?`<span class="auto-chip"><span class="material-icons-round" style="font-size:11px">auto_fix_high</span>auto</span>`:'';
+    
     return `<div class="alcard" style="${isCurr?'border-color:var(--md-primary);box-shadow:0 0 0 2px rgba(26,115,232,.12)':''}">
       <div class="a-icon ${ic}">
         <span style="font-size:18px;font-weight:700;color:${icCol}">${ico}</span>
@@ -1671,7 +1677,7 @@ function renderAttDay(mon){
       <div class="a-info">
         <div class="a-name">${slot.name}${autoChip}</div>
         <div class="a-time">${slot.from}–${slot.to} · ${slot.t}</div>
-        ${type!=='ok'?`<span class="a-lbl ${exCls}" style="margin-top:4px;display:inline-block">${exLbl}</span>`:''}
+        ${(type!=='ok'&&type!=='none')?`<span class="a-lbl ${exCls}" style="margin-top:4px;display:inline-block">${exLbl}</span>`:''}
       </div>
       <div class="a-right">
         <span class="a-lbl ${stCls}">${stLbl}</span>
@@ -1679,6 +1685,7 @@ function renderAttDay(mon){
       </div>
     </div>`;
   }).join(''):'';
+  
   const dayFull=['Poniedziałek','Wtorek','Środa','Czwartek','Piątek'];
   el.innerHTML=`
     <div style="display:flex;align-items:baseline;gap:8px;padding:2px 2px 12px">
