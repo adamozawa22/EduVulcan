@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>EduRodzic</title>
+<title>EduRodzic v0.88</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -1336,7 +1336,6 @@ function loadSettings(){
   document.getElementById('s-notif-att').checked = CFG.notifAtt;
   document.getElementById('s-notif-msg').checked = CFG.notifMsg;
   document.getElementById('s-notif-gr').checked  = CFG.notifGr;
-  // chips
   document.querySelectorAll('#s-interval .chip').forEach(c=>{
     c.classList.toggle('selected', parseInt(c.dataset.val)===CFG.interval);
   });
@@ -1386,14 +1385,23 @@ function load(){try{const r=localStorage.getItem('edu_ios26v3');if(r)S=JSON.pars
 /* ═══ TIME ═══ */
 function pt(s){const[h,m]=s.split(':').map(Number);return h*60+m;}
 function nm(){const n=new Date();return n.getHours()*60+n.getMinutes();}
-function ds(d){return d.toISOString().slice(0,10);}
+function ds(d){
+  // Używa lokalnej daty (nie UTC) żeby uniknąć przesunięcia o 1 dzień w strefach UTC+
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
 function today(){return ds(new Date());}
 function getMonday(ref,offset=0){
   const d=new Date(ref);
   d.setDate(d.getDate()-((d.getDay()+6)%7)+offset*7);
   d.setHours(0,0,0,0);return d;
 }
-function fmtD(s){return new Date(s).toLocaleDateString('pl',{day:'2-digit',month:'2-digit',year:'numeric'});}
+/* Parsuje datę 'YYYY-MM-DD' jako lokalną (nie UTC!) – naprawia bug przesunięcia o 1 dzień */
+function parseLocalDate(s){
+  const [y,m,d]=s.split('-').map(Number);
+  return new Date(y,m-1,d);
+}
+function fmtD(s){return parseLocalDate(s).toLocaleDateString('pl',{day:'2-digit',month:'2-digit',year:'numeric'});}
 function weekLbl(mon){
   const fri=new Date(mon);fri.setDate(mon.getDate()+4);
   const o={day:'numeric',month:'short'};
@@ -1401,19 +1409,17 @@ function weekLbl(mon){
 }
 
 /* ═══ AUTO-MARK PRESENT (threshold-based) ═══ */
-let autoLastRun=''; // track last day we ran to avoid duplicate marking
-
 function autoMark(){
   if(!CFG.automark) return;
   const dow=(new Date().getDay()+6)%7;
-  if(dow>4) return; // weekend
+  if(dow>4) return;
   const td=today(),n=nm(),lessons=TT[dow]||[];
   if(!lessons.length) return;
-  const thresh=CFG.thresh/100; // 0..1
+  const thresh=CFG.thresh/100;
   let changed=false;
   lessons.forEach(slot=>{
     const st=pt(slot.from),en=pt(slot.to),dur=en-st;
-    const mid=st+Math.round(dur*thresh); // point at which we mark present
+    const mid=st+Math.round(dur*thresh);
     if(n>=mid){
       let dd=S.attendance.find(d=>d.date===td);
       if(!dd){S.attendance.push({date:td,lessons:[]});dd=S.attendance[S.attendance.length-1];}
@@ -1428,7 +1434,6 @@ function autoMark(){
 }
 
 function showAutoToast(name){
-  // Create a brief snackbar-style toast
   let t=document.getElementById('auto-toast');
   if(!t){
     t=document.createElement('div');
@@ -1475,7 +1480,6 @@ function goTo(pg,el){
 function toggleProfile(){document.getElementById('prof-overlay').classList.toggle('open');}
 function closeProf(){document.getElementById('prof-overlay').classList.remove('open');}
 
-/* Topbar elevation on scroll */
 window.addEventListener('scroll',()=>{
   document.getElementById('topbar').classList.toggle('elevated',window.scrollY>4);
 },{ passive:true });
@@ -1547,6 +1551,30 @@ function shiftPlan(d){
 
 /* ═══ FREKWENCJA ═══ */
 let atWk=0,atDay=0;
+
+/**
+ * Zwraca { wk, day } wskazujące na ostatni dzień z danymi frekwencji.
+ * wk – offset tygodnia względem bieżącego (0 = ten tydzień, -1 = poprzedni, …)
+ * day – indeks dnia tygodnia (0=pon … 4=pt)
+ */
+function lastAttPos(){
+  const tod=new Date();tod.setHours(0,0,0,0);
+  const sorted=[...S.attendance].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
+  if(!sorted.length) return {wk:0, day:Math.min(4,Math.max(0,(tod.getDay()+6)%7))};
+
+  const lastDate=parseLocalDate(sorted[0].date);
+
+  // Nie pokazuj dni z przyszłości
+  const effectiveDate = lastDate > tod ? tod : lastDate;
+
+  const curMon=getMonday(tod,0);
+  const lastMon=getMonday(effectiveDate,0);
+  const wkOffset=Math.round((lastMon-curMon)/(7*24*3600*1000)); // ujemna lub 0
+  const dayIdx=Math.min(4,Math.max(0,(effectiveDate.getDay()+6)%7));
+
+  return {wk: wkOffset, day: dayIdx};
+}
+
 function renderAtt(){
   let tp=0,ta=0,tl=0,tu=0;
   S.attendance.forEach(d=>d.lessons.forEach(l=>{
@@ -1623,7 +1651,6 @@ function renderAttDay(mon){
       </div>`;
     }
   }
-  // Auto-mark info banner for today
   let autoInfo='';
   if(isToday&&CFG.automark){
     autoInfo=`<div class="automark-banner">
@@ -1639,8 +1666,6 @@ function renderAttDay(mon){
     const excuse=entry?entry.excuse:true;
     const isAuto=entry&&entry.auto;
     const isCurr=isToday&&n>=pt(slot.from)&&n<pt(slot.to);
-    const st=pt(slot.from),en=pt(slot.to),dur=en-st;
-    const mid=st+Math.round(dur*thresh);
     const ico=type==='ok'?'✓':type==='la'?'⏰':'✕';
     const ic=type==='ok'?'ai-ok':type==='la'?'ai-la':'ai-ab';
     const icCol=type==='ok'?'var(--c-ok)':type==='la'?'var(--c-la)':'var(--c-ab)';
@@ -1898,10 +1923,17 @@ function updateProgress(){
 /* ═══ INIT ═══ */
 load();
 loadSettings();
-autoMark(); // run once on load
+autoMark();
+
+// Ustaw plan na dzisiejszy dzień tygodnia
 const todDow=(new Date().getDay()+6)%7;
 plDay=Math.min(4,Math.max(0,todDow));
-atDay=Math.min(4,Math.max(0,todDow));
+
+// ── POPRAWKA: ustaw frekwencję na ostatni dzień z danymi ──
+const _attPos = lastAttPos();
+atWk  = _attPos.wk;
+atDay = _attPos.day;
+
 renderOV();
 renderPlan();
 restartAutoInterval();
