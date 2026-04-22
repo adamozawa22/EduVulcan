@@ -116,7 +116,7 @@ body{font-family:var(--font);background:var(--md-bg);color:var(--md-on-surf);min
 .ph-title{font-size:28px;font-weight:400;font-family:var(--font-display);letter-spacing:-.3px;color:var(--md-on-surf)}
 .ph-sub{font-size:14px;color:var(--md-on-surf-var);margin-top:4px}
 
-/* ── OVERVIEW – nowa strona główna ── */
+/* ── OVERVIEW ── */
 .ov-hero{
   background: linear-gradient(135deg, var(--md-primary) 0%, #1557B0 100%);
   border-radius: var(--r-2xl);
@@ -146,7 +146,6 @@ body{font-family:var(--font);background:var(--md-bg);color:var(--md-on-surf);min
 
 .ov-section-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--md-on-surf-var);margin:20px 0 8px 2px}
 
-/* Kafelek lekcji dnia */
 .ov-today-card{background:var(--md-surface);border:1px solid var(--md-outline);border-radius:var(--r-xl);box-shadow:var(--md-elev1);overflow:hidden;margin-bottom:4px}
 .ov-lesson-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--md-outline)}
 .ov-lesson-row:last-child{border-bottom:none}
@@ -155,12 +154,10 @@ body{font-family:var(--font);background:var(--md-bg);color:var(--md-on-surf);min
 .ov-l-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ov-l-meta{font-size:11px;color:var(--md-on-surf-var);margin-top:1px}
 
-/* Kafelek ostatnich ocen */
 .ov-grade-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--md-outline)}
 .ov-grade-row:last-child{border-bottom:none}
 .ov-gpill{width:36px;height:36px;border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;flex-shrink:0}
 
-/* Pill TERAZ */
 .now-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--md-primary);background:var(--md-primary-container);padding:3px 10px;border-radius:var(--r-full);flex-shrink:0}
 .now-dot{width:6px;height:6px;border-radius:50%;background:var(--md-primary);animation:pulse 1.2s ease infinite}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
@@ -221,7 +218,6 @@ body{font-family:var(--font);background:var(--md-bg);color:var(--md-on-surf);min
 .ex-btn:hover{box-shadow:0 2px 8px rgba(26,115,232,.4)}
 .ex-btn:active{transform:scale(.94)}
 
-/* Excuse banner */
 .exday-banner{background:var(--md-primary-container);border:1px solid var(--md-primary);border-radius:var(--r-xl);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;transition:transform .12s}
 .exday-banner:active{transform:scale(.99)}
 .exday-banner.done{background:var(--c-ok-bg);border-color:var(--c-ok);cursor:default}
@@ -233,7 +229,6 @@ body{font-family:var(--font);background:var(--md-bg);color:var(--md-on-surf);min
 .edb-btn2{font-size:13px;font-weight:500;background:var(--md-primary);color:var(--md-on-primary);border:none;border-radius:var(--r-full);padding:8px 16px;cursor:pointer;transition:transform .12s;white-space:nowrap}
 .edb-btn2:active{transform:scale(.95)}
 
-/* Empty box */
 .empty-box{background:var(--md-surface);border:1px solid var(--md-outline);border-radius:var(--r-xl);padding:36px 20px;text-align:center}
 .eb-emoji{font-size:40px;margin-bottom:12px}
 .eb-title{font-size:16px;font-weight:500;color:var(--md-on-surf);margin-bottom:4px}
@@ -401,7 +396,6 @@ textarea.f-field{resize:none}
 
       <!-- ═══ STRONA GŁÓWNA ═══ -->
       <div class="page active" id="page-overview">
-        <!-- Hero pozdrowienie -->
         <div style="padding-top:16px">
           <div class="ov-hero">
             <div class="ov-greeting" id="ov-greeting-lbl">Dzień dobry</div>
@@ -424,11 +418,9 @@ textarea.f-field{resize:none}
           </div>
         </div>
 
-        <!-- Dziś w szkole -->
         <div class="ov-section-title">Dziś w szkole</div>
         <div class="ov-today-card" id="ov-today"></div>
 
-        <!-- Ostatnie oceny -->
         <div class="ov-section-title" style="margin-top:20px">Ostatnie oceny</div>
         <div class="md3-card" id="ov-grades" style="margin-bottom:0"></div>
       </div>
@@ -452,29 +444,7 @@ textarea.f-field{resize:none}
       <!-- ═══ FREKWENCJA ═══ -->
       <div class="page" id="page-attendance">
         <div class="ph"><div class="ph-title">Frekwencja</div></div>
-        <div class="md3-card" style="margin-bottom:16px">
-          <div class="md3-row" style="padding:16px;gap:0">
-            <div style="flex:1;text-align:center">
-              <div style="font-size:26px;font-weight:500;color:var(--c-ok);font-family:var(--font-display)" id="at-p">0</div>
-              <div style="font-size:11px;color:var(--md-on-surf-var);font-weight:500;margin-top:2px">Obecności</div>
-            </div>
-            <div style="width:1px;height:40px;background:var(--md-outline)"></div>
-            <div style="flex:1;text-align:center">
-              <div style="font-size:26px;font-weight:500;color:var(--c-ab);font-family:var(--font-display)" id="at-a">0</div>
-              <div style="font-size:11px;color:var(--md-on-surf-var);font-weight:500;margin-top:2px">Nieobecn.</div>
-            </div>
-            <div style="width:1px;height:40px;background:var(--md-outline)"></div>
-            <div style="flex:1;text-align:center">
-              <div style="font-size:26px;font-weight:500;color:var(--c-la);font-family:var(--font-display)" id="at-l">0</div>
-              <div style="font-size:11px;color:var(--md-on-surf-var);font-weight:500;margin-top:2px">Spóźnienia</div>
-            </div>
-            <div style="width:1px;height:40px;background:var(--md-outline)"></div>
-            <div style="flex:1;text-align:center">
-              <div style="font-size:26px;font-weight:500;color:var(--c-unex);font-family:var(--font-display)" id="at-u">0</div>
-              <div style="font-size:11px;color:var(--md-on-surf-var);font-weight:500;margin-top:2px">Nieusprawiedl.</div>
-            </div>
-          </div>
-        </div>
+        <!-- USUNIĘTO: karta ze statystykami (procent, obecności, nieobecności, spóźnienia, nieusprawiedliwione) -->
         <div class="week-lbl" id="at-wlbl"></div>
         <div class="week-nav">
           <button class="wbtn" id="at-prev" onclick="shiftAtt(-1)">
@@ -970,7 +940,6 @@ function renderOV(){
   document.getElementById('ov-datesub').textContent =
     new Date().toLocaleDateString('pl',{weekday:'long',day:'numeric',month:'long'});
 
-  // statystyki w hero
   const a=avg(S.grades);
   document.getElementById('ov-avg').textContent=a||'—';
   const allL=S.attendance.flatMap(d=>d.lessons);
@@ -979,7 +948,6 @@ function renderOV(){
   document.getElementById('ov-att').textContent=pct+'%';
   document.getElementById('ov-msg').textContent=S.messages.filter(m=>m.unread).length;
 
-  // dziś w szkole
   const dow=(new Date().getDay()+6)%7;
   const lessons=dow<=4?(TT[dow]||[]):[];
   const n=nm();
@@ -1013,7 +981,6 @@ function renderOV(){
     }).join('');
   }
 
-  // ostatnie oceny
   const recent=[...S.grades].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date)).slice(0,4);
   document.getElementById('ov-grades').innerHTML=recent.map(g=>`
     <div class="ov-grade-row">
@@ -1087,38 +1054,33 @@ function shiftPlan(d){
 }
 
 /* ═══ FREKWENCJA ═══ */
-let atWk=0,atDay=0;
+// atWk=0 zawsze oznacza BIEŻĄCY tydzień (offset=0 od dzisiaj)
+let atWk=0, atDay=0;
 
-function lastAttPos(){
-  const tod=new Date();tod.setHours(0,0,0,0);
-  const sorted=[...S.attendance].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
-  if(!sorted.length) return {wk:0,day:Math.min(4,Math.max(0,(tod.getDay()+6)%7))};
-  const lastDate=parseLocalDate(sorted[0].date);
-  const effectiveDate=lastDate>tod?tod:lastDate;
-  const curMon=getMonday(tod,0);
-  const lastMon=getMonday(effectiveDate,0);
-  const wkOffset=Math.round((lastMon-curMon)/(7*24*3600*1000));
-  const dayIdx=Math.min(4,Math.max(0,(effectiveDate.getDay()+6)%7));
-  return {wk:wkOffset,day:dayIdx};
+function initAttPos(){
+  // Zawsze zaczynamy od bieżącego tygodnia (atWk=0)
+  // Dzień: dzisiaj jeśli pn-pt, w przeciwnym razie piątek
+  const dow=(new Date().getDay()+6)%7; // 0=pon ... 4=pt, 5=sob, 6=nie
+  atWk = 0;
+  atDay = Math.min(4, Math.max(0, dow)); // sobota/niedziela → piątek (4)
 }
 
 function renderAtt(){
-  let tp=0,ta=0,tl=0,tu=0;
+  // Odświeżamy badge z nieusprawiedliwionymi
+  let tu=0;
   S.attendance.forEach(d=>d.lessons.forEach(l=>{
-    if(l.type==='ok')tp++;
-    else if(l.type==='ab'){ta++;if(!l.excuse)tu++;}
-    else if(l.type==='la'){tl++;if(!l.excuse)tu++;}
+    if((l.type==='ab'||l.type==='la')&&!l.excuse) tu++;
   }));
-  document.getElementById('at-p').textContent=tp;
-  document.getElementById('at-a').textContent=ta;
-  document.getElementById('at-l').textContent=tl;
-  document.getElementById('at-u').textContent=tu;
   setBadge('bn-att',tu); setBadge('sb-att',tu);
+
   const mon=getMonday(new Date(),atWk);
   document.getElementById('at-wlbl').textContent=weekLbl(mon);
+
+  // Wyłącz "następny tydzień" jeśli przekracza bieżący tydzień
   const tod=new Date();tod.setHours(0,0,0,0);
   const nextMon=new Date(mon);nextMon.setDate(mon.getDate()+7);
   document.getElementById('at-next').disabled=nextMon>tod;
+
   const strip=document.getElementById('at-strip');
   strip.innerHTML=DS.map((n,i)=>{
     const d=new Date(mon);d.setDate(mon.getDate()+i);
@@ -1397,13 +1359,13 @@ loadSettings();
 
 const todDow=(new Date().getDay()+6)%7;
 plDay=Math.min(4,Math.max(0,todDow));
-const _ap=lastAttPos();
-atWk=_ap.wk; atDay=_ap.day;
+
+// Frekwencja: zawsze startuje od bieżącego tygodnia
+initAttPos();
 
 renderOV();
 renderPlan();
 
-// Odświeżaj co minutę (plan lekcji)
 setInterval(()=>{
   updateProgress();
   if(document.getElementById('page-plan').classList.contains('active')&&plWk===0)renderPlan();
